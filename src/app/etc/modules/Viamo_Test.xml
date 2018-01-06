@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Viamo_Test>
+            <active>true</active>
+            <codePool>local</codePool>
+            <depends></depends>
+        </Viamo_Test>
+    </modules>
+</config>
