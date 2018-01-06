@@ -19,8 +19,36 @@
         <models>
             <viamo_test>
                 <class>Viamo_Test_Model</class>
+                <resourceModel>viamo_test_resource</resourceModel>
             </viamo_test>
+            <viamo_test_resource>
+                <class>Viamo_Test_Model_Resource</class>
+                <entities>
+                    <manager>
+                        <table>viamo_test_manager</table>
+                    </manager>
+                    <post_zone>
+                        <table>viamo_test_post_code_area</table>
+                    </post_zone>
+                    <manager_post_zone>
+                        <table>viamo_test_manager_link_post_zone</table>
+                    </manager_post_zone>
+                    <manager_order>
+                        <table>viamo_test_manager_link_order</table>
+                    </manager_order>
+                </entities>
+            </viamo_test_resource>
         </models>
+        <events>
+            <viamo_test_manager_link_order>
+                <observers>
+                    <sales_ordet_save_after>
+                        <class>viamo_test/observer</class>
+                        <method>managerLinkOrder</method>
+                    </sales_ordet_save_after>
+                </observers>
+            </viamo_test_manager_link_order>
+        </events>
         <resources>
             <viamo_test_setup>
                 <setup>
@@ -29,15 +57,13 @@
             </viamo_test_setup>
         </resources>
     </global>
-    <frontend>
-        <routers>
-            <viamo_test>
-                <use>standard</use>
-                <args>
-                    <frontName>test</frontName>
-                    <module>Viamo_Test</module>
-                </args>
-            </viamo_test>
-        </routers>
-    </frontend>
+    <adminhtml>
+        <events>
+            <viamo_test_manager_link_order>
+                <observer>
+
+                </observer>
+            </viamo_test_manager_link_order>
+        </events>
+    </adminhtml>
 </config>
