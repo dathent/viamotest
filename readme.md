@@ -5,7 +5,7 @@ Facts
 -----
 - version: 1.0.0
 - extension key: Viamo_Test
-- author Dmitriy Datsenko
+- author: Dmitriy Datsenko
 - [extension on GitHub](https://github.com/dathent/viamotest)
 
 Description
@@ -30,20 +30,20 @@ Installation Instructions
 -------------------------
 1. Install the extension via modman:
 - go to magento base path;
-- run command 'modman init';
-- run command 'modman clone https://github.com/dathent/viamotest';
+- run command "modman init";
+- run command "modman clone https://github.com/dathent/viamotest";
 2. Clear the cache, logout from the admin panel and then login again.
 3. Configure and activate the extension under System->Configuration->Viamo Test->Configuration.
 
 
 Uninstallation
 --------------
-1. Remove all extension files from your Magento installation
+1. run command "modman remove viamotest"
 2. Clear the cache, logout from the admin panel and then login again.
 
 Support
 -------
-If you have any issues with this extension, open an issue on [GitHub](https://github.com/viamo/Viamo_Test/issues).
+If you have any issues with this extension, open an issue on [GitHub](https://github.com/dathent/viamotest/issues).
 
 Contribution
 ------------
@@ -52,6 +52,7 @@ Any contribution is highly appreciated. The best way to contribute code is to op
 Developer
 ---------
 
+Dmitriy Datsenko
 [https://www.linkedin.com/in/dathent/](https://www.linkedin.com/in/dathent/)
 
 Licence
