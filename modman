@@ -1,4 +1,4 @@
 src/app/code/local/Viamo/Test     app/code/local/Viamo/Test
 src/app/etc/modules/*    app/etc/modules/
-src/app/design/adminhtml/default/layout/viamo    app/design/adminhtml/default/default/layout/viamo
+src/app/design/adminhtml/default/default/layout/viamo    app/design/adminhtml/default/default/layout/viamo
 

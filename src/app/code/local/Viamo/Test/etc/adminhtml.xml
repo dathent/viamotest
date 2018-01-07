@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Examples
+ *
+ * PHP Version 5
+ *
+ * @category  Viamo
+ * @package   Viamo_Test
+ * @author    Dmitriy Datsenko <info@lotrans.info>
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @link      https://github.com/dathent/viamotest
+ */
+-->
+<config>
+    <menu>
+        <viamo_test translate="title" module="viamo_test">
+            <title>Viamo Test</title>
+            <sort_order>100</sort_order>
+            <children>
+                <thing translate="title" module="viamo_test">
+                    <title>Manager</title>
+                    <sort_order>10</sort_order>
+                    <action>adminhtml/viamo_test_manager</action>
+                </thing>
+            </children>
+        </viamo_test>
+    </menu>
+</config>
