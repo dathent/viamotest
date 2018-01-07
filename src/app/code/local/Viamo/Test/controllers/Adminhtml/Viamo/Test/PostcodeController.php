@@ -11,7 +11,7 @@
  * @link      https://github.com/dathent/viamotest
  */
 
-class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_Controller_Action
+class Viamo_Test_Adminhtml_Viamo_Test_PostcodeController extends Mage_Adminhtml_Controller_Action
 {
     /**
      * Index action - shows the grid
@@ -19,7 +19,7 @@ class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_C
     public function indexAction()
     {
         $this->loadLayout();
-        $this->_setActiveMenu('viamo_test/manager');
+        $this->_setActiveMenu('viamo_test/postcode');
         $this->renderLayout();
     }
     /**
@@ -29,7 +29,7 @@ class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_C
     {
         $this->_initModel();
         $this->loadLayout();
-        $this->_setActiveMenu('viamo_test/manager');
+        $this->_setActiveMenu('viamo_test/postcode');
         $this->renderLayout();
     }
 
@@ -42,21 +42,23 @@ class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_C
     }
 
     /**
-     *
+     * @return Mage_Core_Controller_Response_Http
      */
     public function saveAction()
     {
+        if(!$this->_validateFormKey()) {
+            return $this->getResponse()->setRedirect($this->getUrl("*/*/*"));
+        }
         try {
             $data = $this->_prepareData();
             $model = $this->_getModel();
             $model->addData($data)
                 ->save();
-            $this->_getSession()->addSuccess('Manager is saved.');
             $this->getResponse()->setRedirect($this->getUrl("*/*/index"));
         } catch(Exception $e) {
             Mage::logException($e);
             $this->_getSession()->addError($e->getMessage());
-            $this->getResponse()->setRedirect($this->getUrl("*/*/*"));
+            return $this->getResponse()->setRedirect($this->getUrl("*/*/*"));
         }
     }
 
@@ -68,7 +70,7 @@ class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_C
         try {
             $model = $this->_getModel();
             $model->delete();
-            $this->_getSession()->addSuccess('Manager is deleted.');
+            $this->_getSession()->addSuccess('Post Zone is deleted.');
             $this->getResponse()->setRedirect($this->getUrl("*/*/index"));
         } catch(Exception $e) {
             Mage::logException($e);
@@ -86,29 +88,46 @@ class Viamo_Test_Adminhtml_Viamo_Test_ManagerController extends Mage_Adminhtml_C
         $data = $this->getRequest()->getParams();
         $preparedData = array();
 
-        if(isset($data['name'])) {
-            $preparedData['name'] = $data['name'];
+        if(isset($data['value'])) {
+            $preparedData['value'] = $data['value'];
         } else {
-            throw new Exception('Params "name" is required');
+            throw new Exception('Params "value" is required');
+        }
+
+        if(isset($data['manager_id'])) {
+            $postZoneId = $this->_getModel()->getId();
+            $managerId = $data['manager_id'];
+            /**
+             * @var $collectionLink Viamo_Test_Model_Resource_Link_Postcode_Collection
+             */
+            $collectionLink = Mage::getResourceModel('viamo_test/link_postcode_collection');
+            $collectionLink
+                ->addFieldToFilter('manager_id', $managerId)
+                ->addFieldToFilter('post_zone_id', $postZoneId);
+            if($collectionLink->getSize() < 1) {
+                $collectionLink->getNewEmptyItem()
+                    ->addData(array('manager_id' => $managerId, 'post_zone_id' => $postZoneId))
+                    ->save();
+            }
         }
 
         return $preparedData;
     }
 
     /**
-     * @return Viamo_Test_Model_Manager
+     * @return Viamo_Test_Model_Postcode
      */
     protected function _getModel()
     {
-        if(!Mage::registry('manager_data')) {
-            $managerId = $this->getRequest()->getParam('manager_id');
+        if(!Mage::registry('postcode_data')) {
+            $postZoneId = $this->getRequest()->getParam('post_zone_id');
             /**
-             * @var $managerModel Viamo_Test_Model_Manager
+             * @var $managerModel Viamo_Test_Model_Postcode
              */
-            $managerModel = Mage::getModel('viamo_test/manager')->load($managerId);
-            Mage::register('manager_data', $managerModel);
+            $postcodeModel = Mage::getModel('viamo_test/postcode')->load($postZoneId);
+            Mage::register('postcode_data', $postcodeModel);
         }
 
-        return Mage::registry('manager_data');
+        return Mage::registry('postcode_data');
     }
 }

@@ -19,12 +19,25 @@
         </reference>
     </adminhtml_viamo_test_manager_index>
 
-    <!--
-        this is for the edit form, same deal as the layout handle above
-    -->
     <adminhtml_viamo_test_manager_edit>
         <reference name="content">
-            <block type="viamo_test/adminhtml_manager_edit" name="manager.edit" />
+            <block type="viamo_test/adminhtml_manager_edit" name="manager.edit">
+            <block type="viamo_test/adminhtml_manager_edit_form" name="form"/>
+            </block>
         </reference>
     </adminhtml_viamo_test_manager_edit>
+
+    <adminhtml_viamo_test_postcode_index>
+        <reference name="content">
+            <block type="viamo_test/adminhtml_postcode" name="postcode" />
+        </reference>
+    </adminhtml_viamo_test_postcode_index>
+
+    <adminhtml_viamo_test_postcode_edit>
+        <reference name="content">
+            <block type="viamo_test/adminhtml_postcode_edit" name="postcode.edit">
+                <block type="viamo_test/adminhtml_postcode_edit_form" name="form"/>
+            </block>
+        </reference>
+    </adminhtml_viamo_test_postcode_edit>
 </layout>

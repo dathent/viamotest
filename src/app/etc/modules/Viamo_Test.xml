@@ -4,7 +4,9 @@
         <Viamo_Test>
             <active>true</active>
             <codePool>local</codePool>
-            <depends></depends>
+            <depends>
+                <Mage_Sales/>
+            </depends>
         </Viamo_Test>
     </modules>
 </config>
