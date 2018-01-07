@@ -1,29 +1,4 @@
 <?php
-/**
- * Magento
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Open Software License (OSL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/osl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@magento.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade Magento to newer
- * versions in the future. If you wish to customize Magento for your
- * needs please refer to http://www.magento.com for more information.
- *
- * @category    Mage
- * @package     Mage_Catalog
- * @copyright  Copyright (c) 2006-2017 X.commerce, Inc. and affiliates (http://www.magento.com)
- * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
-
 /* @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
 $installer = $this;
 
@@ -81,7 +56,7 @@ foreach ($data as $link) {
     /**
      * @var $postZoneModel Viamo_Test_Model_Postcode
      */
-    $postZoneModel = Mage::getModel('viamo_test/post_code');
+    $postZoneModel = Mage::getModel('viamo_test/postcode');
     $postZoneModel->load($postZone, 'value');
     if(!$postZoneModel->getId()) {
         $postZoneModel
@@ -94,6 +69,7 @@ foreach ($data as $link) {
      * @var $managerModel Viamo_Test_Model_Manager
      */
     $managerModel = Mage::getModel('viamo_test/manager');
+    $managerModel->load($managerName, 'name');
     if(!$managerModel->getId()) {
         $managerModel
             ->setData('name', $managerName)
@@ -117,4 +93,17 @@ foreach ($data as $link) {
             ->setData('post_zone_id', $postCodeId)
             ->save();
     }
+}
+/**
+ * @var $orderCollection Mage_Sales_Model_Resource_Order_Collection
+ */
+$orderCollection = Mage::getResourceModel('sales/order_collection');
+
+/**
+ * @var $observer Viamo_Test_Model_Observer
+ */
+$observer = Mage::getSingleton('viamo_test/observer');
+
+while ($order = $orderCollection->fetchItem()) {
+    $order->save();
 }

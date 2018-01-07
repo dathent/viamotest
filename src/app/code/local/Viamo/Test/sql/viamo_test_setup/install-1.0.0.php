@@ -1,9 +1,13 @@
 <?php
 
 $installer = $this;
-/* @var $installer Mage_Catalog_Model_Resource_Setup */
+/* @var $installer Mage_Core_Model_Resource_Setup */
 
 $installer->startSetup();
+
+if($installer->tableExists($installer->getTable('viamo_test/manager'))){
+    $installer->getConnection()->dropTable($installer->getTable('viamo_test/manager'));
+}
 
 /**
  * Create table 'viamo_test/manager'
@@ -31,6 +35,10 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table viamo_test/post_zone'
  */
+
+if($installer->tableExists($installer->getTable('viamo_test/post_zone'))){
+    $installer->getConnection()->dropTable($installer->getTable('viamo_test/post_zone'));
+}
 $table = $installer->getConnection()
     ->newTable($installer->getTable('viamo_test/post_zone'))
     ->addColumn('post_zone_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -38,7 +46,7 @@ $table = $installer->getConnection()
         'nullable'  => false,
         'primary'   => true,
         ), 'Post Zone ID')
-    ->addColumn('value', Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
+    ->addColumn('value', Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
         ), 'Value')
     ->setComment('Viamo Test Post Zone');
 $installer->getConnection()->createTable($table);
@@ -46,6 +54,10 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'viamo_test/manager_post_zone'
  */
+
+if($installer->tableExists($installer->getTable('viamo_test/manager_post_zone'))){
+    $installer->getConnection()->dropTable($installer->getTable('viamo_test/manager_post_zone'));
+}
 $table = $installer->getConnection()
     ->newTable($installer->getTable('viamo_test/manager_post_zone'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -54,21 +66,13 @@ $table = $installer->getConnection()
         'primary'   => true,
     ), 'Entity ID')
     ->addColumn('manager_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
         ), 'Manager ID')
     ->addColumn('post_zone_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
         ), 'Post Zone ID')
-    ->addForeignKey($installer->getFkName('viamo_test/manage', 'manager_id', 'viamo_test/post_zone', 'post_zone_id'),
-        'manager_id', $installer->getTable('viamo_test/manage'), 'manager_id',
+    ->addForeignKey($installer->getFkName('viamo_test/manager', 'manager_id', 'viamo_test/manager_post_zone', 'manager_id'),
+        'manager_id', $installer->getTable('viamo_test/manager'), 'manager_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('viamo_test/post_zone', 'post_zone_id', 'viamo_test/manage', 'manager_id'),
+    ->addForeignKey($installer->getFkName('viamo_test/post_zone', 'post_zone_id', 'viamo_test/manager_post_zone', 'post_zone_id'),
         'post_zone_id', $installer->getTable('viamo_test/post_zone'), 'post_zone_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Viamo Test Manager Post Zone');
@@ -77,6 +81,9 @@ $installer->getConnection()->createTable($table);
 /**
  * Create table 'viamo_test/manager_order'
  */
+if($installer->tableExists($installer->getTable('viamo_test/manager_order'))){
+    $installer->getConnection()->dropTable($installer->getTable('viamo_test/manager_order'));
+}
 $table = $installer->getConnection()
     ->newTable($installer->getTable('viamo_test/manager_order'))
     ->addColumn('entity_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
@@ -85,26 +92,28 @@ $table = $installer->getConnection()
         'primary'   => true,
     ), 'Entity ID')
     ->addColumn('manager_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
-        'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
+        'unsigned'  => true
     ), 'Manager ID')
-    ->addColumn('increment_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+    ->addColumn('order_id', Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
         'unsigned'  => true,
-        'nullable'  => false,
-        'primary'   => true,
-        'default'   => '0',
-    ), 'Post Zone ID')
-    ->addForeignKey($installer->getFkName('viamo_test/manage', 'manager_id', 'sales/order', 'increment_id'),
-        'manager_id', $installer->getTable('viamo_test/manage'), 'manager_id',
+    ), 'Order Id')
+    ->addForeignKey($installer->getFkName('viamo_test/manager_order', 'order_id', 'sales/order', 'entity_id'),
+        'order_id', $installer->getTable('sales/order'), 'entity_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
-    ->addForeignKey($installer->getFkName('sales/order', 'increment_id', 'viamo_test/manage', 'manager_id'),
-        'increment_id', $installer->getTable('sales/order'), 'increment_id',
+    ->addForeignKey($installer->getFkName('viamo_test/manager_order', 'manager_id', 'viamo_test/manager', 'manager_id'),
+        'manager_id', $installer->getTable('viamo_test/manager'), 'manager_id',
         Varien_Db_Ddl_Table::ACTION_CASCADE, Varien_Db_Ddl_Table::ACTION_CASCADE)
     ->setComment('Viamo Test Manager Order');
 $installer->getConnection()->createTable($table);
 
+$salesOrderTables = array('sales/order', 'sales/order_grid');
+
+foreach ($salesOrderTables as $tableName) {
+    $installer->getConnection()->addColumn($installer->getTable($tableName), 'manager', array(
+        'type' => Varien_Db_Ddl_Table::TYPE_TEXT,
+        'comment' => 'Manager Name'
+    ));
+}
+
 $installer->endSetup();
 
-$installer->installEntities();
