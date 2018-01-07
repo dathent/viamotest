@@ -51,9 +51,6 @@
                     <manager_post_zone>
                         <table>viamo_test_manager_link_post_zone</table>
                     </manager_post_zone>
-                    <manager_order>
-                        <table>viamo_test_manager_link_order</table>
-                    </manager_order>
                 </entities>
             </viamo_test_resource>
         </models>
@@ -95,12 +92,12 @@
             </updates>
         </layout>
     </adminhtml>
-    <default>
-        <system>
+    <default>>
             <viamo_test>
-                <manager_id>1</manager_id>
-                <amount>300</amount>
+                <configuration>
+                    <manager_id>1</manager_id>
+                    <amount>300</amount>
+                </configuration>
             </viamo_test>
-        </system>
     </default>
 </config>

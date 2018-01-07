@@ -11,7 +11,7 @@
  * @link      https://github.com/dathent/viamotest
  */
 
-class Viamo_Test_Block_Adminhtml_Manager_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+class Viamo_Test_Block_Adminhtml_Postcode_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
 {
     /**
      * Prepare form before rendering HTML
@@ -23,7 +23,7 @@ class Viamo_Test_Block_Adminhtml_Manager_Edit_Form extends Mage_Adminhtml_Block_
         $form = new Varien_Data_Form(
             array(
                 'id'      => 'edit_form',
-                'action'  => $this->getUrl('*/*/save', array('manager_id' => $this->getRequest()->getParam('manager_id'))),
+                'action'  => $this->getUrl('*/*/save', array('post_zone_id' => $this->getRequest()->getParam('post_zone_id'))),
                 'method'  => 'post',
                 'enctype' => 'multipart/form-data'
             )
@@ -39,27 +39,27 @@ class Viamo_Test_Block_Adminhtml_Manager_Edit_Form extends Mage_Adminhtml_Block_
         );
 
         $fieldset->addField(
-            'name',
+            'value',
             'text',
             array(
-                'label'    => Mage::helper('viamo_test')->__('Name'),
+                'label'    => Mage::helper('viamo_test')->__('Value'),
                 'class'    => 'required-entry',
                 'required' => true,
-                'name'     => 'name',
+                'name'     => 'value',
             )
         );
 
-        $this->_preparePostZoneData();
+        $this->_prepareManagerData();
 
         $fieldset->addField(
-            'post_zone_ids',
-            'multiselect',
+            'manager_id',
+            'select',
             array(
-                'label'    => Mage::helper('viamo_test')->__('Post Zone Map'),
-                'disabled'    => 'disabled',
-                'required' => false,
-                'values' => Mage::getResourceModel('viamo_test/postcode_collection')->toOptionArray(),
-                'name'     => 'post_zone_ids',
+                'label'    => Mage::helper('viamo_test')->__('Manager'),
+                'class'    => 'required-entry',
+                'required' => true,
+                'values' => Mage::getResourceModel('viamo_test/manager_collection')->toOptionArray(),
+                'name'     => 'manager_id',
             )
         );
 
@@ -69,23 +69,24 @@ class Viamo_Test_Block_Adminhtml_Manager_Edit_Form extends Mage_Adminhtml_Block_
     }
 
     /**
-     * @return Viamo_Test_Model_Manager
+     *
      */
-    protected function _getModel()
-    {
-        return Mage::registry('manager_data');
-    }
-
-    protected function _preparePostZoneData()
+    protected function _prepareManagerData()
     {
         $model = $this->_getModel();
-        $managerId = $model->getId();
+        $postZoneId = $model->getId();
         /**
          * @var $linkCollection Viamo_Test_Model_Resource_Link_Postcode_Collection
          */
         $linkCollection = Mage::getResourceModel('viamo_test/link_postcode_collection');
-        $postZoneIds = $linkCollection->getIdsPostcodeByManager($managerId);
-        $model->setData('post_zone_ids', $postZoneIds);
+        $managerId = $linkCollection->getManagerIdByPostZoneId($postZoneId);
+        $model->setData('manager_id', $managerId);
 
     }
+
+    protected function _getModel()
+    {
+        return Mage::registry('postcode_data');
+    }
+
 }

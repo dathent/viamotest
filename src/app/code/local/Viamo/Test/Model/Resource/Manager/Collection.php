@@ -26,4 +26,9 @@ class Viamo_Test_Model_Resource_Manager_Collection extends Mage_Core_Model_Resou
     {
         return $this->_toOptionHash('name');
     }
+
+    public function toOptionArray()
+    {
+        return $this->_toOptionArray('manager_id', 'name');
+    }
 }

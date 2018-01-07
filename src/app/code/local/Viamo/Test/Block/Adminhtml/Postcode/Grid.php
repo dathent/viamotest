@@ -11,7 +11,7 @@
  * @link      https://github.com/dathent/viamotest
  */
 
-class Viamo_Test_Block_Adminhtml_Manager_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Viamo_Test_Block_Adminhtml_Postcode_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
     /**
      * Class constructor
@@ -19,45 +19,45 @@ class Viamo_Test_Block_Adminhtml_Manager_Grid extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         parent::__construct();
-        $this->setId('managerGrid');
-        $this->setDefaultSort('manager_id');
+        $this->setId('postcodeGrid');
+        $this->setDefaultSort('post_zone_id');
         $this->setDefaultDir('asc');
         $this->setSaveParametersInSession(true);
     }
     /**
      * Prepare grid collection object
      *
-     * @return Viamo_Test_Block_Adminhtml_Manager_Grid
+     * @return Viamo_Test_Block_Adminhtml_Postcode_Grid
      */
     protected function _prepareCollection()
     {
-        $collection = Mage::getResourceModel('viamo_test/manager_collection');
+        $collection = Mage::getResourceModel('viamo_test/postcode_collection');
         $this->setCollection($collection);
         return parent::_prepareCollection();
     }
     /**
      * Prepare grid columns
      *
-     * @return Viamo_Test_Block_Adminhtml_Manager_Grid
+     * @return Viamo_Test_Block_Adminhtml_Postcode_Grid
      */
     protected function _prepareColumns()
     {
         $this->addColumn(
-            'manager_id',
+            'post_zone_id',
             array(
                 'type'     => 'number',
                 'header'   => Mage::helper('viamo_test')->__('ID'),
                 'width'    => '50px',
-                'index'    => 'manager_id',
+                'index'    => 'post_zone_id',
                 'sortable' => true,
             )
         );
         $this->addColumn(
-            'name',
+            'value',
             array(
-                'header' => Mage::helper('viamo_test')->__('Name'),
+                'header' => Mage::helper('viamo_test')->__('Post Zone'),
                 'width'  => '400px',
-                'index'  => 'name',
+                'index'  => 'value',
             )
         );
 
@@ -74,7 +74,7 @@ class Viamo_Test_Block_Adminhtml_Manager_Grid extends Mage_Adminhtml_Block_Widge
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('manager_id' => $row->getManagerId()));
+        return $this->getUrl('*/*/edit', array('post_zone_id' => $row->getPostZoneId()));
     }
     /**
      * Prepare grid mass actions
@@ -83,8 +83,8 @@ class Viamo_Test_Block_Adminhtml_Manager_Grid extends Mage_Adminhtml_Block_Widge
      */
     protected function _prepareMassaction()
     {
-        $this->setMassactionIdField('manager_id');
-        $this->getMassactionBlock()->setFormFieldName('manager');
+        $this->setMassactionIdField('postcode_id');
+        $this->getMassactionBlock()->setFormFieldName('postcode');
         $this->getMassactionBlock()->addItem(
             'delete',
             array(

@@ -21,4 +21,9 @@ class Viamo_Test_Model_Resource_Postcode_Collection extends Mage_Core_Model_Reso
     {
         $this->_init('viamo_test/postcode');
     }
+
+    public function toOptionArray($withEmpty = false)
+    {
+        return parent::_toOptionArray('post_zone_id', 'value');
+    }
 }

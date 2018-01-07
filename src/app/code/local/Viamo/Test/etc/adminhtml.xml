@@ -18,12 +18,52 @@
             <title>Viamo Test</title>
             <sort_order>100</sort_order>
             <children>
-                <thing translate="title" module="viamo_test">
+                <manager translate="title" module="viamo_test">
                     <title>Manager</title>
                     <sort_order>10</sort_order>
                     <action>adminhtml/viamo_test_manager</action>
-                </thing>
+                </manager>
+                <postcode translate="title" module="viamo_test">
+                    <title>Postcode</title>
+                    <sort_order>15</sort_order>
+                    <action>adminhtml/viamo_test_postcode</action>
+                </postcode>
             </children>
         </viamo_test>
     </menu>
+    <acl>
+        <resources>
+            <admin>
+                <children>
+                    <system>
+                        <children>
+                            <config>
+                                <children>
+                                    <viamo_test translate="title" module="viamo_test">
+                                        <title>Viamo Test</title>
+                                    </viamo_test>
+                                </children>
+                            </config>
+                        </children>
+                    </system>
+                    <viamo_test translate="title" module="viamo_test">
+                        <title>Viamo Test</title>
+                        <sort_order>100</sort_order>
+                        <children>
+                            <manager translate="title" module="viamo_test">
+                                <title>Manager</title>
+                                <sort_order>10</sort_order>
+                                <action>adminhtml/viamo_test_manager</action>
+                            </manager>
+                            <postcode translate="title" module="viamo_test">
+                                <title>Postcode</title>
+                                <sort_order>15</sort_order>
+                                <action>adminhtml/viamo_test_postcode</action>
+                            </postcode>
+                        </children>
+                    </viamo_test>
+                </children>
+            </admin>
+        </resources>
+    </acl>
 </config>

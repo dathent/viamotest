@@ -21,4 +21,34 @@ class Viamo_Test_Model_Resource_Link_Postcode_Collection extends Mage_Core_Model
     {
         $this->_init('viamo_test/link_postcode');
     }
+
+    public function getIdsPostcodeByManager($managerId)
+    {
+        $this->addFieldToFilter('manager_id', $managerId);
+        $select = $this->getSelect();
+        $select->reset('columns');
+        $select->setPart('columns', array(array(
+            'main_table',
+            'post_zone_id',
+            null
+        )));
+        $result = $this->getConnection()->fetchCol($select);
+        return $result;
+    }
+
+
+    public function getManagerIdByPostZoneId($postZoneId)
+    {
+        $this->addFieldToFilter('post_zone_id', $postZoneId);
+        $select = $this->getSelect();
+        $select->reset('columns');
+        $select->setPart('columns', array(array(
+            'main_table',
+            'manager_id',
+            null
+        )));
+        $result = $this->getConnection()->fetchOne($select);
+        return $result;
+    }
+
 }

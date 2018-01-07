@@ -11,7 +11,7 @@
  * @link      https://github.com/dathent/viamotest
  */
 
-class Viamo_Test_Block_Adminhtml_Manager_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+class Viamo_Test_Block_Adminhtml_Postcode_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
 {
     /**
      * Class constructor
@@ -19,34 +19,33 @@ class Viamo_Test_Block_Adminhtml_Manager_Edit extends Mage_Adminhtml_Block_Widge
     public function __construct()
     {
         parent::__construct();
-        $this->_objectId = 'manager_id';
+        $this->_objectId = 'post_zone_id';
         $this->_controller = 'viamo_test';
         $this->_blockGroup = 'viamo_test';
+        $this->_updateButton('save', 'label', Mage::helper('viamo_test')->__('Save Postcode'));
         if($this->_getModel()->getId()) {
             $this->_addButton('delete', array(
-                'label'   => Mage::helper('viamo_test')->__('Delete Manager'),
+                'label'   => Mage::helper('viamo_test')->__('Delete Postcode'),
                 'onclick' => 'deleteConfirm(\''
                     . Mage::helper('core')->jsQuoteEscape(
                         Mage::helper('viamo_test')->__('Are you sure you want to do this?')
                     )
                     . '\', \''
-                    . Mage::helper('adminhtml')->getUrl('*/*/delete', array('manager_id' => $this->_getModel()->getId()))
+                    . Mage::helper('adminhtml')->getUrl('*/*/delete', array('post_zone_id' => $this->_getModel()->getId()))
                     . '\')',
                 'class'   => 'scalable delete',
                 'level'   => -1
             ));
         }
-        $this->_updateButton('save', 'label', Mage::helper('viamo_test')->__('Save Manager'));
     }
 
     /**
-     * @return Viamo_Test_Model_Manager
+     * @return Viamo_Test_Model_Postcode
      */
     protected function _getModel()
     {
-        return Mage::registry('manager_data');
+        return Mage::registry('postcode_data');
     }
-
     /**
      * Get header text
      *
@@ -54,10 +53,10 @@ class Viamo_Test_Block_Adminhtml_Manager_Edit extends Mage_Adminhtml_Block_Widge
      */
     public function getHeaderText()
     {
-        if (Mage::registry('manager_data') && Mage::registry('manager_data')->getId() ) {
-            return Mage::helper('viamo_test')->__("Edit Manager");
+        if (Mage::registry('postcode_data') && Mage::registry('postcode_data')->getId() ) {
+            return Mage::helper('viamo_test')->__("Edit Postcode");
         } else {
-            return Mage::helper('viamo_test')->__('Add Manager');
+            return Mage::helper('viamo_test')->__('Add Postcode');
         }
     }
     /**
