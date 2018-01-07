@@ -61,4 +61,4 @@ Licence
 
 Copyright
 ---------
-(c) 2018 Dmitry Datsenko
+(c) 2018 Dmitriy Datsenko
