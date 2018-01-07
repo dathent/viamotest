@@ -1,4 +1,17 @@
 <?xml version="1.0"?>
+<!--
+/**
+ * Examples
+ *
+ * PHP Version 5
+ *
+ * @category  Viamo
+ * @package   Viamo_Test
+ * @author    Dmitriy Datsenko <info@lotrans.info>
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ * @link      https://github.com/dathent/viamotest
+ */
+ -->
 <config>
     <modules>
         <Viamo_Test>
@@ -10,6 +23,11 @@
             <viamo_test>
                 <class>Viamo_Test_Block</class>
             </viamo_test>
+            <adminhtml>
+                <rewrite>
+                    <sales_order_grid>Viamo_Test_Block_Adminhtml_Sales_Order_Grid</sales_order_grid>
+                </rewrite>
+            </adminhtml>
         </blocks>
         <helpers>
             <viamo_test>
@@ -19,8 +37,36 @@
         <models>
             <viamo_test>
                 <class>Viamo_Test_Model</class>
+                <resourceModel>viamo_test_resource</resourceModel>
             </viamo_test>
+            <viamo_test_resource>
+                <class>Viamo_Test_Model_Resource</class>
+                <entities>
+                    <manager>
+                        <table>viamo_test_manager</table>
+                    </manager>
+                    <post_zone>
+                        <table>viamo_test_post_code_area</table>
+                    </post_zone>
+                    <manager_post_zone>
+                        <table>viamo_test_manager_link_post_zone</table>
+                    </manager_post_zone>
+                    <manager_order>
+                        <table>viamo_test_manager_link_order</table>
+                    </manager_order>
+                </entities>
+            </viamo_test_resource>
         </models>
+        <events>
+            <sales_order_save_before>
+                <observers>
+                    <viamo_test_manager_link_order>
+                        <class>viamo_test/observer</class>
+                        <method>managerLinkOrder</method>
+                    </viamo_test_manager_link_order>
+                </observers>
+            </sales_order_save_before>
+        </events>
         <resources>
             <viamo_test_setup>
                 <setup>
@@ -29,15 +75,32 @@
             </viamo_test_setup>
         </resources>
     </global>
-    <frontend>
+    <admin>
         <routers>
-            <viamo_test>
-                <use>standard</use>
+            <adminhtml>
                 <args>
-                    <frontName>test</frontName>
-                    <module>Viamo_Test</module>
+                    <modules>
+                        <Viamo_Test before="Mage_Adminhtml">Viamo_Test_Adminhtml</Viamo_Test>
+                    </modules>
                 </args>
-            </viamo_test>
+            </adminhtml>
         </routers>
-    </frontend>
+    </admin>
+    <adminhtml>
+        <layout>
+            <updates>
+                <viamo_test>
+                    <file>viamo/test.xml</file>
+                </viamo_test>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <system>
+            <viamo_test>
+                <manager_id>1</manager_id>
+                <amount>300</amount>
+            </viamo_test>
+        </system>
+    </default>
 </config>
