@@ -6,7 +6,7 @@ Facts
 - version: 1.0.0
 - extension key: Viamo_Test
 - author Dmitriy Datsenko
-- [extension on GitHub](https://github.com/viamo/Viamo_Test)
+- [extension on GitHub](https://github.com/dathent/viamotest)
 
 Description
 -----------
