@@ -37,6 +37,19 @@ Installation Instructions
 3. Configure and activate the extension under System->Configuration->Viamo Test->Configuration.
 
 
+Testing instruction
+-------------------
+
+1. Install the Magento with extension via modman:
+- go to magento base path;
+- run command "modman init";
+- run command "modman clone https://github.com/dathent/viamotest -b 'qa' ";
+3. Importing db from file "2018-01-08_120837_viamotest_db.sql.gz".
+4. Configure your local server.
+5. Change base url in magento.
+6. Clear the cache, logout from the admin panel and then login again.
+
+ 
 Uninstallation
 --------------
 1. run command "modman remove viamotest"
